@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - LegitCheck</title>
+    <style>
+        /* General Styles */
+        body {
+            background: url('{{ url_for("static", filename="background.webp") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .header img {
+            width: 150px;
+            height: 75px;
+            margin-right: 15px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        /* Navigation Styles */
+        .nav {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            text-align: left;
+            padding-left: 50px;
+        }
+
+        .nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: #444;
+            border-radius: 5px;
+            color: #ffcc00;
+        }
+
+        /* Main Content */
+        .container {
+            text-align: center;
+            margin-top: 80px;
+            flex-grow: 1;
+        }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 600px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: scale(1.05);
+        }
+
+        .content-box h1, .content-box h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        .content-box p {
+            font-size: 16px;
+            color: white;
+            text-align: left;
+        }
+
+        .content-box input, .content-box textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .content-box button {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .content-box button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Footer Styles */
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        .footer div {
+            flex: 1;
+            margin: 0 20px;
+        }
+
+        .footer h3 {
+            font-size: 18px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <img src="{{ url_for('static', filename='legitcheck.jpg') }}" alt="LegitCheck Logo">
+        <h1>LegitCheck - Team 10</h1>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav">
+        <a href="{{ url_for('title_verification') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('services') }}">Services</a>
+        <a href="{{ url_for('faq') }}">FAQ</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('user_login') }}">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content-box">
+            <h1>Contact Us</h1>
+            <p>If you have any questions, feedback, or need assistance, feel free to reach out to us. We're here to help and ensure a seamless experience with LegitCheck.</p>
+            <h2>Our Contact Information</h2>
+            <p><b>Email:</b> siddharth062006@gmail.com</p>
+            <p><b>Phone:</b> +91 86376 43490</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div>
+            <h3>Guidelines:</h3>
+            <p>Feel free to reach out for any support regarding the title verification process or general inquiries.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LegitCheck - Admin Dashboard</title>
+
+    <style>
+        /* General Styles */
+        body {
+            background: url("{{ url_for('static', filename='background.webp') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 0;
+        }
+
+        .header img {
+            width: 150px;
+            height: 75px;
+            margin-right: 15px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        /* Container Styles */
+        .container {
+            text-align: center;
+            margin-top: 80px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-box h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        .button {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+            width: 80%;
+            max-width: 300px;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .button-red {
+            background-color: #ff0000;
+            color: white;
+        }
+
+        .button-red:hover {
+            background-color: #cc0000;
+        }
+
+        .button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Flash message styles */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .alert-success {
+            background-color: #4CAF50; /* Green */
+        }
+        
+        .alert-danger {
+            background-color: #f44336; /* Red */
+        }
+        
+        .alert-warning {
+            background-color: #ff9800; /* Orange */
+        }
+
+        /* Footer Styles */
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            padding-left: 50px;
+            padding-right: 50px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer div {
+            flex: 1;
+            margin: 0 20px;
+        }
+
+        .footer h3 {
+            font-size: 18px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="{{ url_for('static', filename='legitcheck.jpg') }}" alt="LegitCheck Logo" />
+        <h1>LegitCheck - Team 10</h1>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                  {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Admin Dashboard Content -->
+    <div class="container">
+        <div class="content-box">
+            <h1>Admin Dashboard</h1>
+            <a href="{{ url_for('manage_suffixes') }}" class="button">Manage Prefixes and Suffixes</a>
+            <a href="{{ url_for('manage_disallowed') }}" class="button">Manage Disallowed Words</a>
+            <a href="{{ url_for('admin_logout') }}" class="button button-red">Logout</a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <div>
+            <h3>Guidelines:</h3>
+            <p>Use the dashboard to manage prefixes, suffixes, and disallowed words.</p>
+        </div>
+    </div>
+</body>
+</html>
+

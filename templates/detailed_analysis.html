@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detailed Analysis Report - LegitCheck</title>
+    <style>
+        /* General Styles */
+        body {
+            background: url('{{ url_for("static", filename="background.webp") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            width: 150px;
+            height: 75px;
+            margin-right: 15px;
+        }
+        .header h1 {
+            font-size: 32px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        .nav {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            text-align: left;
+            padding-left: 50px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .nav a:hover {
+            background: #444;
+            border-radius: 5px;
+            color: #ffcc00;
+        }
+        .container {
+            text-align: center;
+            margin-top: 40px;
+            flex-grow: 1;
+            padding-bottom: 40px;
+        }
+        .content-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        .analysis-section {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        h1 {
+            font-size: 28px;
+            color: #ffcc00;
+            margin-bottom: 25px;
+        }
+        h2 {
+            font-size: 22px;
+            color: #ffcc00;
+            margin: 20px 0 15px;
+            border-bottom: 1px solid #ffcc00;
+            padding-bottom: 8px;
+        }
+        .result-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .match-highlight {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        th {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffcc00;
+        }
+        .similarity-meter {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .similarity-bar {
+            height: 100%;
+            background: linear-gradient(to right, #ff0000, #ffcc00, #00ff00);
+            width: {{ similarity }}%;
+        }
+        .button {
+            font-size: 16px;
+            padding: 12px 25px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        .button.logout {
+            background-color: #ff3333;
+            color: white;
+        }
+        .button.logout:hover {
+            background-color: #cc0000;
+        }
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+        .footer div {
+            flex: 1;
+            margin: 0 20px;
+        }
+        .footer h3 {
+            font-size: 18px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+        .footer p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        @media (max-width: 768px) {
+            .content-box {
+                width: 95%;
+                padding: 20px;
+            }
+            .nav {
+                padding-left: 20px;
+            }
+            .footer {
+                flex-direction: column;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='legitcheck.jpg') }}" alt="LegitCheck Logo" />
+        <h1>LegitCheck - Team 10</h1>
+    </div>
+
+    <div class="nav">
+        <a href="{{ url_for('title_verification') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('services') }}">Services</a>
+        <a href="{{ url_for('faq') }}">FAQ</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+
+    <div class="container">
+        <div class="content-box">
+            <h1>Detailed Analysis Report</h1>
+
+            <div class="analysis-section">
+                <h2>Your Submitted Title</h2>
+                <div class="result-item">
+                    <p>{{ title.title_text }}</p>
+                    <small>Submitted on: {{ title.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <h2>Similarity Analysis</h2>
+                <div class="similarity-meter">
+                    <div class="similarity-bar" style="width: {{ title.similarity_score }}%"></div>
+                </div>
+                <p>Similarity Score: <span class="match-highlight">{{ title.similarity_score }}%</span></p>
+
+                <p>
+                    Status:
+                    {% if title.verification_probability >= 70 %}
+                        <strong style="color: #4dff4d;">Accepted</strong>
+                    {% else %}
+                        <strong style="color: #ff4d4d;">Rejected</strong>
+                    {% endif %}
+                </p>
+
+                <p>
+                    Verification Probability: <span class="match-highlight">{{ verification_probability }}%</span>
+                </p>
+
+                {% if title.matched_title %}
+                <div class="result-item">
+                    <p>Matched with title:</p>
+                    <p class="match-highlight">{{ title.matched_title }}</p>
+                </div>
+                {% else %}
+                <div class="result-item">
+                    <p>No significant matches found in our databases</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Disallowed Words Check -->
+            <div class="analysis-section">
+                <h2>Disallowed Words Check</h2>
+                {% if disallowed_words_found %}
+                <div class="result-item" style="background: rgba(255, 0, 0, 0.2);">
+                    <p>Found disallowed words:</p>
+                    <ul>
+                        {% for word in disallowed_words_found %}
+                        <li>{{ word }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <div class="result-item" style="background: rgba(0, 255, 0, 0.1);">
+                    <p>No disallowed words detected</p>
+                </div>
+                {% endif %}
+                <a href="{{ url_for('disallowed_words') }}" class="button">View Full Disallowed Words List</a>
+            </div>
+
+            <!-- Common Prefixes/Suffixes -->
+            <div class="analysis-section">
+                <h2>Common Prefixes/Suffixes Detection</h2>
+                {% if common_patterns %}
+                <div class="result-item">
+                    <p>Detected common patterns:</p>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Pattern</th>
+                        </tr>
+                        {% for pattern in common_patterns %}
+                        <tr>
+                            <td>{{ pattern.type }}</td>
+                            <td>{{ pattern.text }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% else %}
+                <div class="result-item">
+                    <p>No common prefixes/suffixes detected</p>
+                </div>
+                {% endif %}
+                <a href="{{ url_for('common_patterns') }}" class="button">View Common Prefixes/Suffixes</a>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="{{ url_for('title_verification') }}" class="button">Verify Another Title</a>
+                <a href="{{ url_for('user_logout') }}" class="button logout">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>
+            <h3>Guidelines</h3>
+            <p>Ensure titles are original and relevant</p>
+            <p>Avoid disallowed words and phrases</p>
+        </div>
+        <div>
+            <h3>Contact Support</h3>
+            <p>Email: siddharth062006@gmail.com</p>
+            <p>Phone: +1 (123) 456-7890</p>
+        </div>
+    </div>
+</body>
+</html>

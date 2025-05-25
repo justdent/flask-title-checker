@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin - Manage Common Prefixes & Suffixes</title>
+    <style>
+        /* General Styles */
+        body {
+            background: url("{{ url_for('static', filename='background.webp') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header img {
+            width: 150px;
+            height: 75px;
+            margin-right: 15px;
+            border-radius: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            color: #ffcc00;
+            margin: 0;
+        }
+
+        /* Container Styles */
+        .container {
+            text-align: center;
+            margin-top: 80px;
+            flex-grow: 1;
+        }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: scale(1.05);
+        }
+
+        .content-box h1, .content-box h2 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        .content-box label {
+            font-size: 14px;
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .content-box input, .content-box select {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .button {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px 0;
+        }
+
+        .button:hover {
+            background-color: #e6b800;
+        }
+
+        .button-red {
+            background-color: #ff0000;
+            color: white;
+        }
+
+        .button-red:hover {
+            background-color: #cc0000;
+        }
+
+        /* Flash message styles */
+        .flash {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .flash.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .flash.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .flash.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        table th {
+            background: rgba(255, 204, 0, 0.8);
+            color: #000;
+        }
+
+        table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer Styles */
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            padding-left: 50px;
+            padding-right: 50px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer div {
+            flex: 1;
+            margin: 0 20px;
+        }
+
+        .footer h3 {
+            font-size: 18px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="{{ url_for('static', filename='legitcheck.jpg') }}" alt="LegitCheck Logo" />
+        <h1>LegitCheck - Team 10</h1>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="container">
+        <div class="content-box">
+            <h1>Administrator - Manage Common Prefixes & Suffixes</h1>
+
+            <!-- Display Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Current List of Common Prefixes -->
+            <h2>Current List of Common Prefixes</h2>
+            <table>
+                <tr>
+                    <th>Prefix</th>
+                </tr>
+                {% for prefix in prefixes %}
+                <tr>
+                    <td>{{ prefix.value }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>No prefixes added yet.</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <!-- Current List of Common Suffixes -->
+            <h2>Current List of Common Suffixes</h2>
+            <table>
+                <tr>
+                    <th>Suffix</th>
+                </tr>
+                {% for suffix in suffixes %}
+                <tr>
+                    <td>{{ suffix.value }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>No suffixes added yet.</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <!-- Add Prefix/Suffix Form -->
+            <h2>Add a Prefix or Suffix</h2>
+            <form action="{{ url_for('manage_suffixes') }}" method="POST">
+                <label for="value">Value (prefix or suffix):</label>
+                <input type="text" id="value" name="value" placeholder="Enter prefix or suffix" required />
+                <label for="type">Type:</label>
+                <select id="type" name="type" required>
+                    <option value="prefix">Prefix</option>
+                    <option value="suffix">Suffix</option>
+                </select>
+                <button type="submit" class="button" name="action" value="add">Add</button>
+            </form>
+
+            <!-- Remove Prefix/Suffix Form -->
+            <h2>Remove a Prefix or Suffix</h2>
+            <form action="{{ url_for('manage_suffixes') }}" method="POST">
+                <label for="remove_id">Select an entry to remove:</label>
+                <select id="remove_id" name="remove_id" required>
+                    {% for entry in prefixes %}
+                    <option value="{{ entry.value }}">{{ entry.value }} (Prefix)</option>
+                    {% endfor %}
+                    {% for entry in suffixes %}
+                    <option value="{{ entry.value }}">{{ entry.value }} (Suffix)</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button button-red" name="action" value="remove">Remove</button>
+            </form>
+
+            <!-- Back to Admin Dashboard -->
+            <br />
+            <a href="{{ url_for('admin_dashboard') }}">
+                <button class="button">Back to Admin Dashboard</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <div>
+            <h3>Guidelines:</h3>
+            <p>Ensure prefixes and suffixes are relevant and appropriate.</p>
+        </div>
+    </div>
+</body>
+</html>

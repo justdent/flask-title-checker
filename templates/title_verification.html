@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegitCheck - Title Verification</title>
+    <style>
+        /* General Styles */
+        body {
+            background: url('{{ url_for("static", filename="background.webp") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header img {
+            width: 150px;
+            height: 75px;
+            margin-right: 15px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        /* Navigation Styles */
+        .nav {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            text-align: left;
+            padding-left: 50px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: #444;
+            border-radius: 5px;
+            color: #ffcc00;
+        }
+
+        /* Container Styles */
+        .container {
+            text-align: center;
+            margin-top: 80px;
+            flex-grow: 1;
+        }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 300px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: scale(1.05);
+        }
+
+        .content-box h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        .content-box label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .content-box input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            width: 80%;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .button {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Flash message styles */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .alert-success {
+            background-color: #4CAF50;
+        }
+        
+        .alert-danger {
+            background-color: #f44336;
+        }
+        
+        .alert-warning {
+            background-color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='legitcheck.jpg') }}" alt="LegitCheck Logo">
+        <h1>LegitCheck - Team 10</h1>
+    </div>
+    
+    <div class="nav">
+        <a href="{{ url_for('title_verification') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('services') }}">Services</a>
+        <a href="{{ url_for('faq') }}">FAQ</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('user_login') }}">Logout</a>
+    </div>
+    
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+    <div class="container">
+        <form method="POST" action="{{ url_for('title_verification') }}">
+            <div class="content-box">
+                <h1>Title Verification</h1>
+                <label for="title">Enter Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter your Title" required>
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
