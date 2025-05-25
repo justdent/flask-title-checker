@@ -40,6 +40,7 @@ def get_title_checker():
 DISALLOWED_WORDS = ["hack", "fraud", "scam", "cheat"]
 
 # HOME PAGE
+@app.route('/')
 @app.route('/start_page')
 def start_page():
     return render_template('start_page.html')
