@@ -175,11 +175,11 @@
 
             <h2>Result from LegitCheck:</h2>
             <p>Problem Detected: {{ 'Yes' if title.disallowed_words or title.common_patterns else 'No' }}</p>
-            <p>Verification Probability: {{ title.verification_probability }}%</p>
+            <p>Similarity Score: {{ title.similarity_score }}%</p>
 
             <p>
                 Status: 
-                {% if title.verification_probability >= 70 %}
+                {% if title.verification_probability >= 35 %}
                     <strong style="color: #4dff4d;">Accepted</strong>
                 {% else %}
                     <strong style="color: #ff4d4d;">Rejected</strong>
