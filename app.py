@@ -417,6 +417,12 @@ def detailed_analysis(title_id):
 
     disallowed_words = title.disallowed_words.split(',') if title.disallowed_words else []
     common_patterns = json.loads(title.common_patterns) if title.common_patterns else []
+    title_checker = get_title_checker()
+
+    top_matches = []
+    if title.title_text:
+        similarity_result = title_checker.check_similarity(title.title_text)
+        top_matches = similarity_result.get('top_matches', [])
 
     return render_template('detailed_analysis.html',
         title=title,
@@ -425,8 +431,10 @@ def detailed_analysis(title_id):
         matched_source=title.matched_source,
         disallowed_words_found=disallowed_words,
         common_patterns=common_patterns,
-        verification_probability=title.verification_probability or 0.0
+        verification_probability=title.verification_probability or 0.0,
+        top_matches=top_matches
     )
+
 
 @app.route('/disallowed_words')
 def disallowed_words():

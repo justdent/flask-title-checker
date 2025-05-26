@@ -78,11 +78,14 @@ class ExcelTitleChecker:
         return patterns
 
     def check_similarity(self, input_title: str) -> Dict:
-        """Check similarity against all titles in the database."""
+        """Check similarity against all titles in the database, return top 5 matches and best match info."""
         input_title = input_title.lower().strip()
+
         max_similarity = 0
         best_match = ""
         best_source = ""
+
+        matches = []
 
         for _, row in self.titles_db.iterrows():
             db_title = row['title'].lower().strip()
@@ -93,6 +96,22 @@ class ExcelTitleChecker:
                 best_match = row['title']
                 best_source = row['source']
 
+            matches.append({
+                'matched_title': row['title'],
+                'matched_source': row['source'],
+                'similarity_score': round(current_similarity * 100, 2)
+            })
+
+        # Sort all matches by similarity descending
+        matches = sorted(matches, key=lambda x: x['similarity_score'], reverse=True)
+
+        # Filter matches with similarity > threshold (e.g., 30%)
+        threshold = 30
+        filtered_matches = [m for m in matches if m['similarity_score'] >= threshold]
+
+        # Top 5 matches (or None if none above threshold)
+        top_matches = filtered_matches[:5] if filtered_matches else None
+
         found_words = self.check_disallowed_words(input_title)
         patterns = self.check_common_patterns(input_title)
 
@@ -101,5 +120,6 @@ class ExcelTitleChecker:
             'matched_title': best_match if max_similarity > 0.3 else None,
             'matched_source': best_source if max_similarity > 0.3 else None,
             'disallowed_words': found_words,
-            'common_patterns': patterns
+            'common_patterns': patterns,
+            'top_matches': top_matches
         }

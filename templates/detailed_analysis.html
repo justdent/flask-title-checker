@@ -124,7 +124,6 @@
         .similarity-bar {
             height: 100%;
             background: linear-gradient(to right, #ff0000, #ffcc00, #00ff00);
-            width: {{ similarity }}%;
         }
         .button {
             font-size: 16px;
@@ -218,7 +217,7 @@
                 <div class="similarity-meter">
                     <div class="similarity-bar" style="width: {{ title.similarity_score }}%"></div>
                 </div>
-                <p>Similarity Score: <span class="match-highlight">{{ title.similarity_score }}%</span></p>
+                <p>Similarity Score: <span class="match-highlight">{{ title.similarity_score|round(0) }}%</span></p>
 
                 <p>
                     Status:
@@ -230,14 +229,27 @@
                 </p>
 
                 <p>
-                    Verification Probability: <span class="match-highlight">{{ verification_probability }}%</span>
+                    Verification Probability: <span class="match-highlight">{{ verification_probability|round(0) }}%</span>
                 </p>
 
-                {% if title.matched_title %}
-                <div class="result-item">
-                    <p>Matched with title:</p>
-                    <p class="match-highlight">{{ title.matched_title }}</p>
-                </div>
+                {% if top_matches and top_matches|length > 0 %}
+                <p>Matched with titles:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Similarity (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in top_matches[:5] %}
+                        <tr>
+                            <td>{{ match.matched_title }}</td>
+                            <td>{{ match.similarity_score|round(0) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 {% else %}
                 <div class="result-item">
                     <p>No significant matches found in our databases</p>
@@ -245,7 +257,6 @@
                 {% endif %}
             </div>
 
-            <!-- Disallowed Words Check -->
             <div class="analysis-section">
                 <h2>Disallowed Words Check</h2>
                 {% if disallowed_words_found %}
@@ -265,51 +276,50 @@
                 <a href="{{ url_for('disallowed_words') }}" class="button">View Full Disallowed Words List</a>
             </div>
 
-            <!-- Common Prefixes/Suffixes -->
             <div class="analysis-section">
-                <h2>Common Prefixes/Suffixes Detection</h2>
+                <h2>Common Patterns Detected</h2>
                 {% if common_patterns %}
-                <div class="result-item">
-                    <p>Detected common patterns:</p>
-                    <table>
+                <table>
+                    <thead>
                         <tr>
                             <th>Type</th>
-                            <th>Pattern</th>
+                            <th>Text</th>
+                            <th>Count</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {% for pattern in common_patterns %}
                         <tr>
                             <td>{{ pattern.type }}</td>
                             <td>{{ pattern.text }}</td>
+                            <td>{{ pattern.count }}</td>
                         </tr>
                         {% endfor %}
-                    </table>
-                </div>
+                    </tbody>
+                </table>
                 {% else %}
-                <div class="result-item">
-                    <p>No common prefixes/suffixes detected</p>
+                <div class="result-item" style="background: rgba(0, 255, 0, 0.1);">
+                    <p>No common prefixes or suffixes detected</p>
                 </div>
                 {% endif %}
-                <a href="{{ url_for('common_patterns') }}" class="button">View Common Prefixes/Suffixes</a>
+                <a href="{{ url_for('common_patterns') }}" class="button">View Prefixes & Suffixes</a>
             </div>
 
-            <div style="margin-top: 40px;">
-                <a href="{{ url_for('title_verification') }}" class="button">Verify Another Title</a>
-                <a href="{{ url_for('user_logout') }}" class="button logout">Logout</a>
-            </div>
+            <a href="{{ url_for('title_verification') }}" class="button">Resubmit Title</a>
+            <a href="{{ url_for('user_logout') }}" class="button logout">Logout</a>
         </div>
     </div>
 
-    <div class="footer">
+    <footer class="footer">
         <div>
             <h3>Guidelines</h3>
-            <p>Ensure titles are original and relevant</p>
-            <p>Avoid disallowed words and phrases</p>
+            <p>Contact: Ensure the title is relevant and unique</p>
         </div>
         <div>
-            <h3>Contact Support</h3>
+            <h3>Contact Us:</h3>
             <p>Email: siddharth062006@gmail.com</p>
-            <p>Phone: +1 (123) 456-7890</p>
+            <p>Phone: +123 456 7890</p>
         </div>
-    </div>
+    </footer>
 </body>
 </html>
