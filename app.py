@@ -382,8 +382,11 @@ def verification_results():
     similarity_score = analysis['similarity_score']
     num_disallowed = len(analysis['disallowed_words'])
 
-    verification_probability = max(0, 100 - similarity_score - (num_disallowed * 10))
-    verification_probability = min(verification_probability, 100)
+    # Adjusted logic: if any disallowed words are found, probability is 0
+    if num_disallowed > 0:
+        verification_probability = 0
+    else:
+        verification_probability = round(max(0, 100 - similarity_score), 0)
 
     latest_title.verification_probability = verification_probability
 

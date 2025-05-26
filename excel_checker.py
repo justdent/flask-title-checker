@@ -97,7 +97,7 @@ class ExcelTitleChecker:
         patterns = self.check_common_patterns(input_title)
 
         return {
-            'similarity_score': round(max_similarity * 100, 2),
+            'similarity_score': round(max_similarity * 100, 0),
             'matched_title': best_match if max_similarity > 0.3 else None,
             'matched_source': best_source if max_similarity > 0.3 else None,
             'disallowed_words': found_words,
